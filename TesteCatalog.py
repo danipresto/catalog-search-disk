@@ -1,4 +1,4 @@
-import os,pandas as pd, numpy as np
+import os,pandas as pd, sys
 
 # Inicialização de variáveis/estruturas de dados
 
@@ -23,5 +23,5 @@ dfListsF = pd.DataFrame(listFile)
 #Concatenando os df e passando para formato csv em arquivo .txt
 
 dfMerge = pd.concat([dfListsP,dfListsF],axis=1)
-df_Merge = df_Merge.set_axis(['Caminho','Nome'],axis='columns')
-df_Merge.to_csv(path_or_buf = os.getcwd() + "\\planilha.txt",sep = ',')
+dfMerge = dfMerge.set_axis(['Caminho','Nome'],axis='columns')
+dfMerge.to_csv(path_or_buf = os.getcwd() + "\\planilha.txt",sep = ',')
