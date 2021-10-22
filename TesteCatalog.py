@@ -2,8 +2,7 @@ import os, pandas as pd, sys
 
 # Inicialização de variáveis/estruturas de dados
 
-root = os.getcwd()
-path = os.path.join(root, "targetdirectory")
+root = sys.argv[1]
 listPath = []
 listFile = []
 
@@ -21,11 +20,11 @@ dfListsP = pd.DataFrame(listPath)
 dfListsF = pd.DataFrame(listFile)
 
 
-#Concatenando os dataframes , adicionando a coluna com nome do hd e  passando para formato csv em arquivo .txt
+#Concatenando os df e passando para formato csv em arquivo .txt
 
 dfMerge = pd.concat([dfListsP,dfListsF],axis=1)
 dfMerge = dfMerge.set_axis(['Caminho','Nome'],axis='columns')
-dfMerge['HD'] = sys.argv[1]
+dfMerge['HD'] = sys.argv[2]
 cols = dfMerge.columns.tolist()
 cols = cols[-1:] + cols[:-1]
 dfMerge = dfMerge[cols]
