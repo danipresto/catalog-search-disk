@@ -1,4 +1,4 @@
-import os,pandas as pd, sys
+import os, pandas as pd, sys
 
 # Inicialização de variáveis/estruturas de dados
 
@@ -20,8 +20,13 @@ for path, subdirs, files in os.walk(root):
 dfListsP = pd.DataFrame(listPath)
 dfListsF = pd.DataFrame(listFile)
 
-#Concatenando os df e passando para formato csv em arquivo .txt
+
+#Concatenando os dataframes , adicionando a coluna com nome do hd e  passando para formato csv em arquivo .txt
 
 dfMerge = pd.concat([dfListsP,dfListsF],axis=1)
 dfMerge = dfMerge.set_axis(['Caminho','Nome'],axis='columns')
+dfMerge['HD'] = sys.argv[1]
+cols = dfMerge.columns.tolist()
+cols = cols[-1:] + cols[:-1]
+dfMerge = dfMerge[cols]
 dfMerge.to_csv(path_or_buf = os.getcwd() + "\\planilha.txt",sep = ',')
