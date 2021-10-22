@@ -10,8 +10,9 @@ listFile = []
 
 for path, subdirs, files in os.walk(root):
     for name in files:
-        listPath.append(path)
-        listFile.append(name)
+        if(name.endswith('.jpg')):
+            listPath.append(path)
+            listFile.append(name)
 
 
 # Convertendo listas para formato de dataframe
