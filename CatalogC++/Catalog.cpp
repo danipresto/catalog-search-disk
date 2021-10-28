@@ -2,32 +2,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "include/dirent.h"
+#include "include/dirent.h" //Biblioteca de diretórios 
 #include <iostream>
-#include <chrono>
+#include <chrono>   //Biblioteca de medições de tempo
+#include <fstream>  //Biblioteca de leitura e escrita de arquivos
 
-auto start = std::chrono::high_resolution_clock::now();
 
-static int find_direct(const char* dirname)
+auto start = std::chrono::high_resolution_clock::now(); //Inicia a contagem
+/* Função p/ listar diretórios. 
+Recebe o nome do diretório, um inteiro para escrever a ordem no csv 
+e o objeto arquivo */
+
+static int find_direct(const char* dirname, int* count, std::ofstream* myfile) 
 {
-    DIR* dir;
-    char buffer[PATH_MAX + 2];
-    char* p = buffer;
-    const char* src;
+    DIR* dir; 
+    char buffer[PATH_MAX + 2]; //Array com tamanho máximo de subdiretórios a pesquisar
+    char* p = buffer; //Ponteiro na posição inicial da array
+    const char* src; 
     char* end = &buffer[PATH_MAX];
     int ok;
+    int num; 
 
     src = dirname;
-    while (p < end && *src != '\0') {
+    while (p < end && *src != '\0') { //Enquanto o ponteiro p não estiver na última posição incrementar o valor de p; 
         *p++ = *src++;
     }
     *p = '\0';
 
-    dir = opendir(dirname);
+    dir = opendir(dirname); //Abri o diretório e armazena em objeto do tipo DIR
     if (dir != NULL) {
         struct dirent* ent;
 
-        while ((ent = readdir(dir)) != NULL) {
+        while ((ent = readdir(dir)) != NULL) { //Enquanto houver subdiretórios em dir
             char* q = p;
             char c;
 
@@ -54,14 +60,19 @@ static int find_direct(const char* dirname)
             case DT_LNK:
             case DT_REG:
                 /* Output file name with directory */
+                *count = *count + 1;
+                num = *count;
+                printf("%d  ", num);
                 printf("%s\n", buffer);
+                *myfile << num << " " << buffer << "\n";
+
                 break;
 
             case DT_DIR:
                
                 if (strcmp(ent->d_name, ".") != 0
                     && strcmp(ent->d_name, "..") != 0) {
-                    find_direct(buffer);
+                    find_direct(buffer, count, myfile);
                 }
                 break;
 
@@ -86,16 +97,18 @@ static int find_direct(const char* dirname)
 
 int main(int argc, char* argv[])
 {
-    bool CurrentDt = false;
+    bool CurrentDt = false; //usar comando de linha ou a variável directory como inicio. false usa a variável.
     int i;
     int ok;
     const char* directory = "D:\\";
-
+    int count = 0;
+    std::ofstream catalog;
+    catalog.open("C:\\Users\\isaacsousa\\Desktop\\Isaac\\catalog.csv"); //diretório para criação do .csv
 
     i = 1;
     if (CurrentDt) {
         while (i < argc) {
-            ok = find_direct(argv[i]);
+            ok = find_direct(argv[i], &count, &catalog);
          
             if (!ok) {
                 exit(EXIT_FAILURE);
@@ -104,17 +117,15 @@ int main(int argc, char* argv[])
         }
 
         if (argc == 1) {
-            find_direct(".");
+            find_direct(".", &count, &catalog);
         }
     }
     else {
-        find_direct(directory);
+        find_direct(directory, &count, &catalog);
     }
 
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    duration = duration / 1000000;
-    std::cout << "Tempo gasto : " << duration.count() << "Segundos" << std::endl;
-    return EXIT_SUCCESS;
+    auto stop = std::chrono::high_resolution_clock::now(); //Para de contar o tempo
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+    std::cout << "Tempo gasto : " << duration.count() << "Segundos" << std::endl; 
+    return 0;
 }
-
