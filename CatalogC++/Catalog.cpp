@@ -62,8 +62,6 @@ static int find_direct(const char* dirname, int* count, std::ofstream* myfile)
                 /* Output file name with directory */
                 *count = *count + 1;
                 num = *count;
-                printf("%d  ", num);
-                printf("%s\n", buffer);
                 *myfile << num << " " << buffer << "\n";
 
                 break;
