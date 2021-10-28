@@ -122,6 +122,7 @@ int main(int argc, char* argv[])
         find_direct(directory, &count, &catalog);
     }
 
+    catalog.close();
     auto stop = std::chrono::high_resolution_clock::now(); //Para de contar o tempo
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
     std::cout << "Tempo gasto : " << duration.count() << "Segundos" << std::endl; 
