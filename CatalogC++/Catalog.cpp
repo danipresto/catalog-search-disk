@@ -13,7 +13,7 @@ auto start = std::chrono::high_resolution_clock::now(); //Inicia a contagem
 Recebe o nome do diretório, um inteiro para escrever a ordem no csv 
 e o objeto arquivo */
 
-static int find_direct(const char* dirname, int* count, std::ofstream* myfile) 
+static int find_direct(const char* dirname, std::ofstream* myfile) 
 {
     DIR* dir; 
     char buffer[PATH_MAX + 2]; //Array com tamanho máximo de subdiretórios a pesquisar
@@ -21,7 +21,7 @@ static int find_direct(const char* dirname, int* count, std::ofstream* myfile)
     const char* src; 
     char* end = &buffer[PATH_MAX];
     int ok;
-    int num; 
+
 
     src = dirname;
     while (p < end && *src != '\0') { //Enquanto o ponteiro p não estiver na última posição incrementar o valor de p; 
@@ -59,10 +59,9 @@ static int find_direct(const char* dirname, int* count, std::ofstream* myfile)
             switch (ent->d_type) {
             case DT_LNK:
             case DT_REG:
-                /* Output file name with directory */
-                *count = *count + 1;
-                num = *count;
-                *myfile << num << " " << buffer << "\n";
+                
+               
+                *myfile << buffer << "\n";
 
                 break;
 
@@ -70,7 +69,7 @@ static int find_direct(const char* dirname, int* count, std::ofstream* myfile)
                
                 if (strcmp(ent->d_name, ".") != 0
                     && strcmp(ent->d_name, "..") != 0) {
-                    find_direct(buffer, count, myfile);
+                    find_direct(buffer, myfile);
                 }
                 break;
 
@@ -95,18 +94,17 @@ static int find_direct(const char* dirname, int* count, std::ofstream* myfile)
 
 int main(int argc, char* argv[])
 {
-    bool CurrentDt = false; //usar comando de linha ou a variável directory como inicio. false usa a variável.
+    bool CurrentDt = true; //usar comando de linha ou a variável directory como inicio. false usa a variável.
     int i;
     int ok;
     const char* directory = "D:\\";
-    int count = 0;
     std::ofstream catalog;
     catalog.open("C:\\Users\\isaacsousa\\Desktop\\Isaac\\catalog.csv"); //diretório para criação do .csv
 
     i = 1;
     if (CurrentDt) {
         while (i < argc) {
-            ok = find_direct(argv[i], &count, &catalog);
+            ok = find_direct(argv[i], &catalog);
          
             if (!ok) {
                 exit(EXIT_FAILURE);
@@ -115,11 +113,11 @@ int main(int argc, char* argv[])
         }
 
         if (argc == 1) {
-            find_direct(".", &count, &catalog);
+            find_direct(".", &catalog);
         }
     }
     else {
-        find_direct(directory, &count, &catalog);
+        find_direct(directory, &catalog);
     }
 
     catalog.close();
@@ -128,3 +126,7 @@ int main(int argc, char* argv[])
     std::cout << "Tempo gasto : " << duration.count() << "Segundos" << std::endl; 
     return 0;
 }
+
+
+/* Uso: g++ Local\\Catalog.cpp -o nome.exe
+   nome.exe diretório a buscar */
