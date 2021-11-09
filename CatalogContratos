@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#colocar o codigo do disco (c ,d , e , etc...)
+list=$(find /$1/contratos/ -mindepth 1 -maxdepth 1 -type d)
+
+#Laço para criar um csv para cada pasta dentro de contratos
+for c in ${list[@]};
+do
+     readarray -d "/" -t name <<<"$c"
+     find $c -type f -printf '%p,\n' >> "${name[-1]}".csv
+done
