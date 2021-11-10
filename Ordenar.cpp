@@ -31,7 +31,7 @@ int main(int arg, char* argv[])
 	
 	for (std::string elem : Contracts) {
 		std::string fname = path + elem;
-		std::string file = fname + "\\" + elem + ".txt";
+		std::string file = fname + "\\" + elem + ".csv";
 		mkdir(fname.c_str());
 		std::fopen(file.c_str(), "w");
 	}	
