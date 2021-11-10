@@ -4,6 +4,10 @@
 #include "include/dirent.h"
 #include <thread> 
 
+
+
+/* Lê um .csv já e separa ele em novos por contrato em novos arquivos .csv */
+ 
 void writetp(const char* name, std::string lin, std::string path)
 {
 	std::string nam = name;
