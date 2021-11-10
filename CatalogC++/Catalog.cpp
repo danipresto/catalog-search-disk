@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "include/dirent.h" //Biblioteca de diretórios 
+#include <dirent.h> //Biblioteca de diretórios 
 #include <iostream>
 #include <chrono>   //Biblioteca de medições de tempo
 #include <fstream>  //Biblioteca de leitura e escrita de arquivos
