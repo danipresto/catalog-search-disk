@@ -25,7 +25,7 @@ int main(int arg, char* argv[])
 	//std::cout << arg << "\n";
 	std::string path = argv[1]; //DIRETORIO PARA SALVAR OS ARQUIVOS
 	std::ifstream catalog(argv[2]); //LOCAL DO ARQUIVO .CSV
-	std::vector<std::string> Contracts = {"amc", "detran", "goiania", "goiania-corredor", "maracanau"}; //Falta Adicionar todos os contratos
+	std::vector<std::string> Contracts = {"amc", "detran", "goiania", "maracanau"}; //Falta Adicionar todos os contratos
 	std::fstream logs; std::string line;
 
 	
