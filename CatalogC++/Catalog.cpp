@@ -9,8 +9,8 @@
 
 int main(int argc, char* argv[])
 {
-    std::string file = argv[2];
-    std::string path = argv[1];
+    std::string file = argv[2]; // diretório da pasta de armazenamento
+    std::string path = argv[1]; // Local dos arquivos de HDs
     std::string line;
     std::vector<std::string> paths;
     const char* pch;
@@ -21,9 +21,9 @@ int main(int argc, char* argv[])
         pch = strtok(cstr, "/ \\");
         while (pch != NULL)
         {
-
             paths.push_back(pch);
             pch = strtok(NULL, "/ \\");
+            
         }
         if (paths.size() >= 4) {   
             if (!std::filesystem::exists(file + "/" + paths[2])) {
