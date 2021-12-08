@@ -11,7 +11,7 @@ import isoparser
 ############
 
 
-#HD TESTETADO AMC_GYN HD 29 / HD 17
+#HD TESTADO AMC_GYN HD 29 / HD 17
 excel_file = 'Pasta de trabalho.xlsx' 
 sheet = load_workbook(excel_file, data_only = True)
 
