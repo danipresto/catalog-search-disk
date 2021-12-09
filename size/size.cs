@@ -1,3 +1,6 @@
+//Calcular o tamanho do mesmo jeito que windows propriedades
+
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
