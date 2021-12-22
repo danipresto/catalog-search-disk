@@ -1,3 +1,6 @@
+#Uso: navegar para o local, powershell.exe .\size (cmd) ou PS .\size (no terminal do powershell)
+
+
 $Depth = 1
 $Path = '.'
 
